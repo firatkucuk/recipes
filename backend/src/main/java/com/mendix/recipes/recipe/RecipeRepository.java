@@ -11,13 +11,13 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query("" +
         "select distinct r " +
         "from Recipe r " +
-        "join r.categories c " +
-        "join r.directions s " +
-        "join r.ingredients d " +
-        "join d.items i " +
+        "left join r.categories c " +
+        "left join r.directions s " +
+        "left join r.ingredients d " +
+        "left join d.items i " +
         "where" +
         "  (" +
-        "    0 = (select count(x) from Category x where x.uuid in :category)" +
+        "    0 = :categoryCount" +
         "    or" +
         "    c.uuid in :category" +
         "  )" +
@@ -34,5 +34,5 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
         "    lower(i.content) like lower(concat('%', :term, '%'))" +
         "  )"
     )
-    List<RecipeInfo> list(List<String> category, String term);
+    List<RecipeInfo> list(int categoryCount, List<String> category, String term);
 }

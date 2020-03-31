@@ -1,4 +1,4 @@
-package com.mendix.recipes;
+package com.mendix.recipes.common;
 
 import java.util.Locale;
 import java.util.UUID;

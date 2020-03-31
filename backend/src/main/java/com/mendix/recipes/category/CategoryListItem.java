@@ -1,8 +1,10 @@
 package com.mendix.recipes.category;
 
+import java.util.UUID;
+
 public interface CategoryListItem {
 
-    String getUuid();
-
     String getName();
+
+    UUID getUuid();
 }

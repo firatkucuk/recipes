@@ -1,4 +1,4 @@
-package com.mendix.recipes;
+package com.mendix.recipes.common;
 
 import lombok.Getter;
 import lombok.Setter;

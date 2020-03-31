@@ -2,10 +2,11 @@ package com.mendix.recipes.recipe.dto.info;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 public interface RecipeInfo {
 
-    String getUuid();
+    UUID getUuid();
 
     String getTitle();
 

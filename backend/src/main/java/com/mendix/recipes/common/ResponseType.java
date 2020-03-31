@@ -1,4 +1,4 @@
-package com.mendix.recipes;
+package com.mendix.recipes.common;
 
 public enum ResponseType {
     ERROR,

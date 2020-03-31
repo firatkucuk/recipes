@@ -1,11 +1,11 @@
 INSERT INTO "CATEGORY" ("UUID", "NAME", "CREATED_AT")
-VALUES (RANDOM_UUID(), 'Main dish', NOW()),
-       (RANDOM_UUID(), 'Chili', NOW()),
-       (RANDOM_UUID(), 'Liquor', NOW()),
-       (RANDOM_UUID(), 'Cakes', NOW()),
-       (RANDOM_UUID(), 'Cake mixes', NOW()),
-       (RANDOM_UUID(), 'Microwave', NOW()),
-       (RANDOM_UUID(), 'Vegetables', NOW());
+VALUES ('2f44e5ec-7375-4bff-9409-698c536c84ba', 'Main dish', NOW()),
+       ('6eb1626d-2bcc-42a5-a1aa-befc1e47ab59', 'Chili', NOW()),
+       ('739ef371-cdef-4631-a893-0b1e1fd20512', 'Liquor', NOW()),
+       ('3e413da5-a5aa-4233-9d15-d69168b231e2', 'Cakes', NOW()),
+       ('01e4bb71-0e66-4b39-b1e1-e8ad5bb1d57a', 'Cake mixes', NOW()),
+       ('ee4ab6ec-e023-4085-98d1-b1c6cb84ba4a', 'Microwave', NOW()),
+       ('6d6da1d2-0f00-424e-9828-fcce3904f100', 'Vegetables', NOW());
 
 INSERT INTO "RECIPE" ("UUID", "TITLE", "YIELD", "CREATED_AT")
 VALUES (RANDOM_UUID(), '30 Minute Chili', 6, NOW()),

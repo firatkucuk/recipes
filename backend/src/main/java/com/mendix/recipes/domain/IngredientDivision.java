@@ -20,6 +20,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -51,6 +53,7 @@ public class IngredientDivision {
     @Column(name = "CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "division", cascade = {CascadeType.ALL})
     private List<IngredientItem> items = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package com.mendix.recipes.recipe;
 
+import java.util.List;
 import java.util.Set;
 
 public interface RecipeInfo {
@@ -10,9 +11,9 @@ public interface RecipeInfo {
 
     int getYield();
 
-    Set<DivisionInfo> getIngredients();
+    List<DivisionInfo> getIngredients();
 
-    Set<DirectionStepInfo> getDirections();
+    List<DirectionStepInfo> getDirections();
 
     Set<CategoryInfo> getCategories();
 }

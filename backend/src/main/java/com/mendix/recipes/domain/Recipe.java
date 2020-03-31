@@ -1,12 +1,13 @@
 package com.mendix.recipes.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +22,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -51,13 +54,16 @@ public class Recipe {
     @Column(name = "CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Set<IngredientDivision> ingredients = new HashSet<>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.ALL})
+    private List<IngredientDivision> ingredients = new ArrayList<>();
 
-    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Set<DirectionStep> directions = new HashSet<>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.ALL})
+    private List<DirectionStep> directions = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
         name = "RECIPE_CATEGORY",
         joinColumns = {@JoinColumn(name = "RECIPE_ID")},

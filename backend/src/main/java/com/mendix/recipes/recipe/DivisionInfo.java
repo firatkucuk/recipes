@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface DivisionInfo {
 
-//    String getTitle();
-//
-//    List<IngredientItemInfo> getItems();
+    String getTitle();
+
+    List<IngredientItemInfo> getItems();
 }

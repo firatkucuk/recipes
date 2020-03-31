@@ -55,9 +55,12 @@ public final class RestResponseFactory {
     private <T> RestResponse<T> createMessage(final ResponseType type, final String msgId, final T data) {
 
         final RestResponse<T> restResponse = new RestResponse<>(type, msgId);
-        restResponse.setErrorCode(UUID.randomUUID().toString());
         restResponse.setText(messageSource.getMessage(msgId, null, msgId, Locale.getDefault()));
         restResponse.setData(data);
+
+        if (type == ResponseType.ERROR) {
+            restResponse.setErrorCode(UUID.randomUUID().toString());
+        }
 
         return restResponse;
     }

@@ -13,7 +13,9 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -22,6 +24,8 @@ import org.springframework.data.annotation.CreatedDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"recipe"})
+@EqualsAndHashCode(exclude = {"recipe"})
 public class DirectionStep {
 
     @Id

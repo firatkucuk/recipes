@@ -1,14 +1,18 @@
 package com.mendix.recipes.domain;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,14 +23,14 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "INGREDIENT_DIVISION")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"recipes"})
-@EqualsAndHashCode(exclude = {"recipes"})
-public class Category {
+@ToString(exclude = {"recipe"})
+@EqualsAndHashCode(exclude = {"recipe"})
+public class IngredientDivision {
 
     @Id
     @Column(name = "ID")
@@ -36,13 +40,17 @@ public class Category {
     @Column(name = "UUID", nullable = false, unique = true, length = 36)
     private String uuid;
 
-    @Column(name = "NAME", nullable = false, unique = true, length = 50)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "RECIPE_ID", referencedColumnName = "ID", nullable = false)
+    private Recipe recipe;
+
+    @Column(name = "TITLE", length = 100)
+    private String title;
 
     @CreatedDate
     @Column(name = "CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
 
-    @ManyToMany(mappedBy = "categories")
-    private Set<Recipe> recipes = new HashSet<>();
+    @OneToMany(mappedBy = "division", cascade = {CascadeType.ALL})
+    private List<IngredientItem> items = new ArrayList<>();
 }

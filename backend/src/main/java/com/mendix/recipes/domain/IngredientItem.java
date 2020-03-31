@@ -13,7 +13,9 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -22,6 +24,8 @@ import org.springframework.data.annotation.CreatedDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"recipe", "unit"})
+@EqualsAndHashCode(exclude = {"recipe", "unit"})
 public class IngredientItem {
 
     @Id
@@ -33,8 +37,8 @@ public class IngredientItem {
     private String uuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RECIPE_ID", referencedColumnName = "ID", nullable = false)
-    private Recipe recipe;
+    @JoinColumn(name = "DIVISION_ID", referencedColumnName = "ID", nullable = false)
+    private IngredientDivision division;
 
     @Column(name = "QUANTITY", length = 15)
     private String quantity;

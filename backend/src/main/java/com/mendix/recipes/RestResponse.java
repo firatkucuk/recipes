@@ -1,4 +1,4 @@
-package com.mendix.recipes.dto;
+package com.mendix.recipes;
 
 import lombok.Data;
 

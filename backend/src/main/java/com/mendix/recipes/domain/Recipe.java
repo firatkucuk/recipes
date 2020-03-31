@@ -1,13 +1,12 @@
 package com.mendix.recipes.domain;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,13 +51,13 @@ public class Recipe {
     @Column(name = "CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.ALL})
-    private List<IngredientDivision> ingredients = new ArrayList<>();
+    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Set<IngredientDivision> ingredients = new HashSet<>();
 
-    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.ALL})
-    private List<DirectionStep> directions = new ArrayList<>();
+    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Set<DirectionStep> directions = new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(
         name = "RECIPE_CATEGORY",
         joinColumns = {@JoinColumn(name = "RECIPE_ID")},

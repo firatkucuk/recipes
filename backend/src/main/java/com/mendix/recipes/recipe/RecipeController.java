@@ -1,4 +1,4 @@
-package com.mendix.recipes.category;
+package com.mendix.recipes.recipe;
 
 import com.mendix.recipes.RestResponseFactory;
 import com.mendix.recipes.RestResponse;
@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/api/recipe")
 @RequiredArgsConstructor
-public class CategoryController {
+public class RecipeController {
 
-    private final CategoryService     categoryService;
+    private final RecipeService       recipeService;
     private final RestResponseFactory responseFactory;
 
     @GetMapping({"", "/"})
-    public RestResponse<List<CategoryListItem>> getCategories() {
+    public RestResponse<List<RecipeInfo>> getRecipes() {
 
-        return responseFactory.info("categoryListFetched", categoryService.list());
+        return responseFactory.info("recipeListFetched", recipeService.list());
     }
 }

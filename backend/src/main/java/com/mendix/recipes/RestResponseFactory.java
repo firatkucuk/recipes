@@ -1,6 +1,5 @@
 package com.mendix.recipes;
 
-import com.mendix.recipes.dto.RestResponse;
 import java.util.Locale;
 import java.util.UUID;
 import org.springframework.context.MessageSource;

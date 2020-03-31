@@ -28,8 +28,8 @@ import org.springframework.data.annotation.CreatedDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"recipe"})
-@EqualsAndHashCode(exclude = {"recipe"})
+@ToString(exclude = {"recipe", "items"})
+@EqualsAndHashCode(exclude = {"recipe", "items"})
 public class IngredientDivision {
 
     @Id

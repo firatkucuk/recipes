@@ -19,13 +19,13 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
-@Table(name = "INGREDIENT")
+@Table(name = "INGREDIENT_ITEM")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"recipe", "unit"})
-@EqualsAndHashCode(exclude = {"recipe", "unit"})
+@ToString(exclude = {"division"})
+@EqualsAndHashCode(exclude = {"division"})
 public class IngredientItem {
 
     @Id
@@ -43,9 +43,8 @@ public class IngredientItem {
     @Column(name = "QUANTITY", length = 15)
     private String quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UNIT_ID", referencedColumnName = "ID")
-    private Unit unit;
+    @Column(name = "UNIT", length = 50)
+    private String unit;
 
     @Column(name = "CONTENT", nullable = false, length = 200)
     private String content;

@@ -1,13 +1,24 @@
 package com.mendix.recipes;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
 public final class RestResponse<T> {
 
+    private final ResponseType type;
+    private final String       msgId;
+
+    @Setter
     private T      data;
-    private String msgId;
+    @Setter
     private String errorCode;
+    @Setter
     private String text;
-    private String type;
+
+    public RestResponse(final ResponseType type, final String msgId) {
+
+        this.type = type;
+        this.msgId = msgId;
+    }
 }

@@ -1,4 +1,4 @@
-package com.mendix.recipes.recipe;
+package com.mendix.recipes.recipe.dto.info;
 
 import java.util.List;
 import java.util.Set;
@@ -9,7 +9,7 @@ public interface RecipeInfo {
 
     String getTitle();
 
-    int getYield();
+    Integer getYield();
 
     List<DivisionInfo> getIngredients();
 

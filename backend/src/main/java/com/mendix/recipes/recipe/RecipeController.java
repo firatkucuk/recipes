@@ -1,11 +1,13 @@
 package com.mendix.recipes.recipe;
 
-import com.mendix.recipes.RestResponseFactory;
 import com.mendix.recipes.RestResponse;
+import com.mendix.recipes.RestResponseFactory;
+import com.mendix.recipes.recipe.dto.info.RecipeInfo;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,8 +19,11 @@ public class RecipeController {
     private final RestResponseFactory responseFactory;
 
     @GetMapping({"", "/"})
-    public RestResponse<List<RecipeInfo>> getRecipes() {
+    public RestResponse<List<RecipeInfo>> getRecipes(
+        @RequestParam(required = false) List<String> category,
+        @RequestParam(required = false) String term
+    ) {
 
-        return responseFactory.info("recipeListFetched", recipeService.list());
+        return responseFactory.info("recipeListFetched", recipeService.list(category, term));
     }
 }

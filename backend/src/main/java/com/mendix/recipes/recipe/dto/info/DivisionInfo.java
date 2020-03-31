@@ -1,4 +1,4 @@
-package com.mendix.recipes.recipe;
+package com.mendix.recipes.recipe.dto.info;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.mendix.recipes.recipe;
+package com.mendix.recipes.recipe.dto.info;
 
 public interface CategoryInfo {
 

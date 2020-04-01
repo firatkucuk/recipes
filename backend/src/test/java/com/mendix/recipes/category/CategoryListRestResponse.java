@@ -4,6 +4,7 @@ import com.mendix.recipes.common.ResponseType;
 import com.mendix.recipes.common.RestResponse;
 import java.util.List;
 import java.util.UUID;
+import lombok.Builder;
 import lombok.Data;
 
 class CategoryListRestResponse extends RestResponse<List<CategoryListItemImpl>> {
@@ -14,6 +15,7 @@ class CategoryListRestResponse extends RestResponse<List<CategoryListItemImpl>> 
 }
 
 @Data
+@Builder
 class CategoryListItemImpl implements CategoryListItem {
 
     private String name;

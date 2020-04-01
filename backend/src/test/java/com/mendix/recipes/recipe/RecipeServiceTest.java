@@ -5,13 +5,8 @@ import com.mendix.recipes.domain.Recipe;
 import com.mendix.recipes.recipe.dto.form.IngredientDivisionForm;
 import com.mendix.recipes.recipe.dto.form.IngredientForm;
 import com.mendix.recipes.recipe.dto.form.RecipeForm;
-import com.mendix.recipes.recipe.dto.info.CategoryInfo;
-import com.mendix.recipes.recipe.dto.info.DirectionStepInfo;
-import com.mendix.recipes.recipe.dto.info.DivisionInfo;
-import com.mendix.recipes.recipe.dto.info.RecipeInfo;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,40 +86,13 @@ class RecipeServiceTest {
 
         final UUID uuid = UUID.randomUUID();
 
+        final RecipeInfoImpl recipeInfo = new RecipeInfoImpl();
+        recipeInfo.setUuid(uuid);
+
         Mockito.when(recipeRepository.findByUuid(Mockito.anyString()))
-            .thenReturn(Optional.of(new RecipeInfo() {
-                @Override
-                public UUID getUuid() {
-                    return uuid;
-                }
+            .thenReturn(Optional.of(recipeInfo));
 
-                @Override
-                public String getTitle() {
-                    return null;
-                }
-
-                @Override
-                public Integer getYield() {
-                    return null;
-                }
-
-                @Override
-                public List<DivisionInfo> getIngredients() {
-                    return null;
-                }
-
-                @Override
-                public List<DirectionStepInfo> getDirections() {
-                    return null;
-                }
-
-                @Override
-                public Set<CategoryInfo> getCategories() {
-                    return null;
-                }
-            }));
-
-        final RecipeInfo info = recipeService.get(uuid);
+        final var info = recipeService.get(uuid);
 
         assertThat(info).isNotNull();
         assertThat(info.getUuid()).isEqualTo(uuid);

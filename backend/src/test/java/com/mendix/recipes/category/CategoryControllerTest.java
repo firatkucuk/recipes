@@ -32,17 +32,12 @@ class CategoryControllerTest {
     void getCategories() throws Exception {
 
         Mockito.when(categoryService.list()).thenReturn(
-            List.of(new CategoryListItem() {
-                @Override
-                public String getName() {
-                    return "test";
-                }
-
-                @Override
-                public UUID getUuid() {
-                    return UUID.fromString("2f44e5ec-7375-4bff-9409-698c536c84ba");
-                }
-            })
+            List.of(
+                CategoryListItemImpl.builder()
+                    .name("test")
+                    .uuid(UUID.fromString("2f44e5ec-7375-4bff-9409-698c536c84ba"))
+                    .build()
+            )
         );
 
         mockMvc

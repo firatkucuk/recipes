@@ -2,16 +2,10 @@ package com.mendix.recipes.recipe;
 
 import com.mendix.recipes.common.ResponseType;
 import com.mendix.recipes.common.RestResponseFactory;
-import com.mendix.recipes.domain.Recipe;
 import com.mendix.recipes.recipe.dto.form.IngredientDivisionForm;
 import com.mendix.recipes.recipe.dto.form.IngredientForm;
 import com.mendix.recipes.recipe.dto.form.RecipeForm;
-import com.mendix.recipes.recipe.dto.info.CategoryInfo;
-import com.mendix.recipes.recipe.dto.info.DirectionStepInfo;
-import com.mendix.recipes.recipe.dto.info.DivisionInfo;
-import com.mendix.recipes.recipe.dto.info.RecipeInfo;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -137,38 +131,11 @@ class RecipeControllerTest {
         Mockito.when(recipeService.add(Mockito.any(RecipeForm.class)))
             .thenReturn(recipeUuid);
 
+        final RecipeInfoImpl recipeInfo = new RecipeInfoImpl();
+        recipeInfo.setUuid(recipeUuid);
+
         Mockito.when(recipeService.get(Mockito.any(UUID.class)))
-            .thenReturn(new RecipeInfo() {
-                @Override
-                public UUID getUuid() {
-                    return recipeUuid;
-                }
-
-                @Override
-                public String getTitle() {
-                    return null;
-                }
-
-                @Override
-                public Integer getYield() {
-                    return null;
-                }
-
-                @Override
-                public List<DivisionInfo> getIngredients() {
-                    return null;
-                }
-
-                @Override
-                public List<DirectionStepInfo> getDirections() {
-                    return null;
-                }
-
-                @Override
-                public Set<CategoryInfo> getCategories() {
-                    return null;
-                }
-            });
+            .thenReturn(recipeInfo);
 
         final IngredientForm ingredient = new IngredientForm();
         ingredient.setQuantity("1/2");

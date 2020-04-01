@@ -76,7 +76,5 @@ class RecipeIntegrationTest {
         final List<DivisionInfoImpl> divisions = data.getIngredients();
         assertThat(divisions).isNotNull();
         assertThat(divisions).hasSize(1);
-
-
     }
 }

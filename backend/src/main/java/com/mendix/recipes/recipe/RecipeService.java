@@ -12,7 +12,6 @@ import com.mendix.recipes.recipe.dto.info.RecipeInfo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -63,9 +62,9 @@ class RecipeService {
     }
 
     @NonNull
-    RecipeInfo<?, ?, ?> get(@NonNull final UUID uuid) {
+    <T extends RecipeInfo<?, ?, ?>> T get(@NonNull final UUID uuid) {
 
-        final Optional<RecipeInfo<?, ?, ?>> recipeInfoOptional = recipeRepository.findByUuid(uuid.toString());
+        final var recipeInfoOptional = recipeRepository.<T>findByUuid(uuid.toString());
 
         if (recipeInfoOptional.isEmpty()) {
             throw new ItemNotFoundException("recipeNotFound");
@@ -75,7 +74,7 @@ class RecipeService {
     }
 
     @NonNull
-    List<RecipeInfo<?, ?, ?>> list(@Nullable List<String> categoryList, @Nullable final String term) {
+    <T extends RecipeInfo<?, ?, ?>> List<T> list(@Nullable List<String> categoryList, @Nullable final String term) {
 
         if (categoryList == null) {
             categoryList = new ArrayList<>();

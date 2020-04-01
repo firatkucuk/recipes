@@ -21,17 +21,12 @@ class CategoryServiceTest {
         final UUID uuid = UUID.fromString("2f44e5ec-7375-4bff-9409-698c536c84ba");
 
         Mockito.when(categoryRepository.list()).thenReturn(
-            List.of(new CategoryListItem() {
-                @Override
-                public String getName() {
-                    return "test";
-                }
-
-                @Override
-                public UUID getUuid() {
-                    return uuid;
-                }
-            })
+            List.of(
+                CategoryListItemImpl.builder()
+                    .name("test")
+                    .uuid(uuid)
+                    .build()
+            )
         );
 
         final CategoryService        service = new CategoryService(categoryRepository);

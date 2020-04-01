@@ -176,7 +176,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void getRecipe_invalidParameter() throws Exception {
+    void getRecipes_invalidParameter() throws Exception {
 
         mockMvc
             .perform(
@@ -196,7 +196,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void getRecipe_succeeds() throws Exception {
+    void getRecipes_succeeds() throws Exception {
 
         final IngredientItemInfoImpl ingredient = new IngredientItemInfoImpl();
         ingredient.setQuantity("1/2");

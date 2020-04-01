@@ -97,4 +97,22 @@ class RecipeServiceTest {
         assertThat(info).isNotNull();
         assertThat(info.getUuid()).isEqualTo(uuid);
     }
+
+    @Test
+    void list_succeeds() {
+
+        final UUID uuid = UUID.randomUUID();
+
+        final RecipeInfoImpl recipeInfo = new RecipeInfoImpl();
+        recipeInfo.setUuid(uuid);
+
+        Mockito.when(recipeRepository.list(Mockito.anyInt(), Mockito.any(), Mockito.any()))
+            .thenReturn(List.of(recipeInfo));
+
+        final var list = recipeService.list(List.of(UUID.randomUUID()), "cake");
+
+        assertThat(list).isNotNull();
+        assertThat(list).hasSize(1);
+        assertThat(list.get(0).getUuid()).isEqualTo(uuid);
+    }
 }

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/category")
 @RequiredArgsConstructor
-public class CategoryController {
+class CategoryController {
 
     private final CategoryService     categoryService;
     private final RestResponseFactory responseFactory;
 
     @GetMapping({"", "/"})
-    public RestResponse<List<CategoryListItem>> getCategories() {
+    RestResponse<List<CategoryListItem>> getCategories() {
 
         return responseFactory.info("categoryListFetched", categoryService.list());
     }

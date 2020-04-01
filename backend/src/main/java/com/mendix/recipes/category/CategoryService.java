@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CategoryService {
+class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public List<CategoryListItem> list() {
+    List<CategoryListItem> list() {
 
         return categoryRepository.list();
     }

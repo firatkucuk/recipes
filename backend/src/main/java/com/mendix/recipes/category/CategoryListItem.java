@@ -2,7 +2,7 @@ package com.mendix.recipes.category;
 
 import java.util.UUID;
 
-public interface CategoryListItem {
+interface CategoryListItem {
 
     String getName();
 

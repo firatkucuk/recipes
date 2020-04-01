@@ -12,13 +12,13 @@ import org.springframework.http.HttpStatus;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CategoryIntegrationTest {
+class CategoryIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
 
     @Test
-    public void getCategories() {
+    void getCategories() {
 
         final var response = restTemplate.getForEntity("/api/category", RestResponse.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

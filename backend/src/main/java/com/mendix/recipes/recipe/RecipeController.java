@@ -5,6 +5,7 @@ import com.mendix.recipes.common.RestResponseFactory;
 import com.mendix.recipes.recipe.dto.form.RecipeForm;
 import com.mendix.recipes.recipe.dto.info.RecipeInfo;
 import java.util.List;
+import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,21 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/recipe")
 @RequiredArgsConstructor
-public class RecipeController {
+class RecipeController {
 
     private final RecipeService       recipeService;
     private final RestResponseFactory responseFactory;
 
     @PostMapping({"", "/"})
-    public RestResponse<Void> addRecipe(@RequestBody @Valid final RecipeForm form) {
+    RestResponse<UUID> addRecipe(@RequestBody @Valid final RecipeForm form) {
 
-        recipeService.add(form);
-
-        return responseFactory.info("recipeAdded");
+        return responseFactory.info("recipeAdded", recipeService.add(form));
     }
 
     @GetMapping({"", "/"})
-    public RestResponse<List<RecipeInfo>> getRecipes(
+    RestResponse<List<RecipeInfo>> getRecipes(
         @RequestParam(required = false) List<String> category,
         @RequestParam(required = false) String term
     ) {

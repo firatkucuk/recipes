@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = {CategoryController.class, RestResponseFactory.class})
-public class CategoryControllerTest {
+class CategoryControllerTest {
 
     @MockBean
     private CategoryService categoryService;
@@ -29,7 +29,7 @@ public class CategoryControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void getCategories() throws Exception {
+    void getCategories() throws Exception {
 
         Mockito.when(categoryService.list()).thenReturn(
             List.of(new CategoryListItem() {

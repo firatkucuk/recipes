@@ -1,6 +1,5 @@
 package com.mendix.recipes.recipe;
 
-import com.mendix.recipes.category.CategoryRepository;
 import com.mendix.recipes.domain.DirectionStep;
 import com.mendix.recipes.domain.IngredientDivision;
 import com.mendix.recipes.domain.IngredientItem;
@@ -23,22 +22,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class RecipeService {
+class RecipeService {
 
-    private final CategoryRepository           categoryRepository;
     private final DirectionStepRepository      directionStepRepository;
     private final IngredientDivisionRepository ingredientDivisionRepository;
     private final IngredientItemRepository     ingredientItemRepository;
+    private final RecipeCategoryRepository     categoryRepository;
     private final RecipeRepository             recipeRepository;
 
-    public void add(@NonNull final RecipeForm form) {
+    UUID add(@NonNull final RecipeForm form) {
 
         final List<String> categories = form.getCategories().stream()
             .map((UUID::toString))
             .collect(Collectors.toList());
 
+        final UUID uuid = UUID.randomUUID();
+
         final Recipe recipe = new Recipe();
-        recipe.setUuid(UUID.randomUUID().toString());
+        recipe.setUuid(uuid.toString());
         recipe.setTitle(form.getTitle());
         recipe.setYield(form.getYield());
         recipe.setCategories(categoryRepository.findMatchedCategories(categories));
@@ -49,9 +50,11 @@ public class RecipeService {
         createIngredients(recipe, form.getIngredients());
 
         recipeRepository.save(recipe);
+
+        return uuid;
     }
 
-    public List<RecipeInfo> list(@Nullable List<String> categoryList, @Nullable final String term) {
+    List<RecipeInfo> list(@Nullable List<String> categoryList, @Nullable final String term) {
 
         if (categoryList == null) {
             categoryList = new ArrayList<>();

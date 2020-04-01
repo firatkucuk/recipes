@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
-    Optional<RecipeInfo> findByUuid(String uuid);
+    Optional<RecipeInfo<?, ?, ?>> findByUuid(String uuid);
 
     @Query("" +
         "select distinct r " +
@@ -37,5 +37,5 @@ interface RecipeRepository extends JpaRepository<Recipe, Long> {
         "    lower(i.content) like lower(concat('%', :term, '%'))" +
         "  )"
     )
-    List<RecipeInfo> list(int categoryCount, List<String> category, String term);
+    List<RecipeInfo<?, ?, ?>> list(int categoryCount, List<String> category, String term);
 }

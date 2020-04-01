@@ -32,16 +32,6 @@ public final class RestResponseFactory {
         return createMessage(ResponseType.INFO, msgId, data);
     }
 
-    public RestResponse<Void> success(final String msgId) {
-
-        return createMessage(ResponseType.SUCCESS, msgId, null);
-    }
-
-    public <T> RestResponse<T> success(final String msgId, final T data) {
-
-        return createMessage(ResponseType.SUCCESS, msgId, data);
-    }
-
     public RestResponse<Void> warning(final String msgId) {
 
         return createMessage(ResponseType.WARNING, msgId, null);

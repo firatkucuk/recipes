@@ -26,16 +26,16 @@ class RecipeController {
     private final RestResponseFactory responseFactory;
 
     @PostMapping({"", "/"})
-    RestResponse<RecipeInfo> addRecipe(@RequestBody @Valid final RecipeForm form) {
+    RestResponse<RecipeInfo<?, ?, ?>> addRecipe(@RequestBody @Valid final RecipeForm form) {
 
-        final UUID       uuid = recipeService.add(form);
-        final RecipeInfo info = recipeService.get(uuid);
+        final UUID                uuid = recipeService.add(form);
+        final RecipeInfo<?, ?, ?> info = recipeService.get(uuid);
 
         return responseFactory.info("recipeAdded", info);
     }
 
     @GetMapping({"", "/"})
-    RestResponse<List<RecipeInfo>> getRecipes(
+    RestResponse<List<RecipeInfo<?, ?, ?>>> getRecipes(
         @RequestParam(required = false) List<String> category,
         @RequestParam(required = false) String term
     ) {

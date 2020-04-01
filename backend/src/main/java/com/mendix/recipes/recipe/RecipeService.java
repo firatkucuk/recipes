@@ -63,9 +63,9 @@ class RecipeService {
     }
 
     @NonNull
-    RecipeInfo get(@NonNull final UUID uuid) {
+    RecipeInfo<?, ?, ?> get(@NonNull final UUID uuid) {
 
-        final Optional<RecipeInfo> recipeInfoOptional = recipeRepository.findByUuid(uuid.toString());
+        final Optional<RecipeInfo<?, ?, ?>> recipeInfoOptional = recipeRepository.findByUuid(uuid.toString());
 
         if (recipeInfoOptional.isEmpty()) {
             throw new ItemNotFoundException("recipeNotFound");
@@ -75,7 +75,7 @@ class RecipeService {
     }
 
     @NonNull
-    List<RecipeInfo> list(@Nullable List<String> categoryList, @Nullable final String term) {
+    List<RecipeInfo<?, ?, ?>> list(@Nullable List<String> categoryList, @Nullable final String term) {
 
         if (categoryList == null) {
             categoryList = new ArrayList<>();

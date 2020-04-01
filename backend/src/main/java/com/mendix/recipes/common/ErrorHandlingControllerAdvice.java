@@ -34,7 +34,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(Throwable.class)
     ResponseEntity<RestResponse<Void>> defaultExceptionHandler(
         final Throwable ex,
-        final HttpServletRequest request,
         final HttpServletResponse response) {
 
         if (response == null) {
@@ -77,7 +76,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(BadRequestException.class)
     ResponseEntity<RestResponse<Void>> handleException(
         final BadRequestException ex,
-        final HttpServletRequest request,
         final HttpServletResponse response) {
 
         if (response == null) {
@@ -95,7 +93,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(ErrorOccurredException.class)
     ResponseEntity<RestResponse<Void>> handleException(
         final ErrorOccurredException ex,
-        final HttpServletRequest request,
         final HttpServletResponse response) {
 
         if (response == null) {
@@ -113,7 +110,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     ResponseEntity<RestResponse<String>> handleException(
         final HttpMessageNotReadableException ex,
-        final HttpServletRequest request,
         final HttpServletResponse response) {
 
         if (response == null) {
@@ -131,7 +127,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     ResponseEntity<RestResponse<Void>> handleException(
         final HttpRequestMethodNotSupportedException ex,
-        final HttpServletRequest request,
         final HttpServletResponse response) {
 
         if (response == null) {
@@ -149,7 +144,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
     ResponseEntity<RestResponse<Void>> handleException(
         final HttpMediaTypeNotAcceptableException ex,
-        final HttpServletRequest request,
         final HttpServletResponse response) {
 
         if (response == null) {
@@ -167,7 +161,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(ItemNotFoundException.class)
     ResponseEntity<RestResponse<String>> handleException(
         final ItemNotFoundException ex,
-        final HttpServletRequest request,
         final HttpServletResponse response) {
 
         if (response == null) {
@@ -188,7 +181,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<RestResponse<Void>> handleException(
         final MethodArgumentNotValidException ex,
-        final HttpServletRequest request,
         final HttpServletResponse response) {
 
         if (response == null) {
@@ -206,7 +198,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     ResponseEntity<RestResponse<String>> handleException(
         final MissingServletRequestParameterException ex,
-        final HttpServletRequest request,
         final HttpServletResponse response) {
 
         if (response == null) {
@@ -230,7 +221,6 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(ValidationException.class)
     ResponseEntity<RestResponse<String>> handleException(
         final ValidationException ex,
-        final HttpServletRequest request,
         final HttpServletResponse response) {
 
         if (response == null) {

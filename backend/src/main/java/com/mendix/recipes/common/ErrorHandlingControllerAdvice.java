@@ -51,6 +51,7 @@ public class ErrorHandlingControllerAdvice {
 
         // Overriding response type
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        log.error("An error occurred", ex);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resp.error("errorOccurred"));
     }

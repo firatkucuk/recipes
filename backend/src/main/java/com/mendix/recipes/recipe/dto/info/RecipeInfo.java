@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public interface RecipeInfo {
+public interface RecipeInfo<I extends DivisionInfo, D extends DirectionStepInfo, C extends CategoryInfo> {
 
     UUID getUuid();
 
@@ -12,9 +12,9 @@ public interface RecipeInfo {
 
     Integer getYield();
 
-    List<DivisionInfo> getIngredients();
+    List<I> getIngredients();
 
-    List<DirectionStepInfo> getDirections();
+    List<D> getDirections();
 
-    Set<CategoryInfo> getCategories();
+    Set<C> getCategories();
 }

@@ -3,10 +3,13 @@ package com.mendix.recipes.recipe;
 import com.mendix.recipes.domain.Recipe;
 import com.mendix.recipes.recipe.dto.info.RecipeInfo;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 interface RecipeRepository extends JpaRepository<Recipe, Long> {
+
+    Optional<RecipeInfo> findByUuid(String uuid);
 
     @Query("" +
         "select distinct r " +

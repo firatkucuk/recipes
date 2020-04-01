@@ -26,9 +26,12 @@ class RecipeController {
     private final RestResponseFactory responseFactory;
 
     @PostMapping({"", "/"})
-    RestResponse<UUID> addRecipe(@RequestBody @Valid final RecipeForm form) {
+    RestResponse<RecipeInfo> addRecipe(@RequestBody @Valid final RecipeForm form) {
 
-        return responseFactory.info("recipeAdded", recipeService.add(form));
+        final UUID       uuid = recipeService.add(form);
+        final RecipeInfo info = recipeService.get(uuid);
+
+        return responseFactory.info("recipeAdded", info);
     }
 
     @GetMapping({"", "/"})

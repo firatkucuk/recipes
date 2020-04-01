@@ -2,10 +2,16 @@ package com.mendix.recipes.recipe;
 
 import com.mendix.recipes.common.ResponseType;
 import com.mendix.recipes.common.RestResponseFactory;
+import com.mendix.recipes.domain.Recipe;
 import com.mendix.recipes.recipe.dto.form.IngredientDivisionForm;
 import com.mendix.recipes.recipe.dto.form.IngredientForm;
 import com.mendix.recipes.recipe.dto.form.RecipeForm;
+import com.mendix.recipes.recipe.dto.info.CategoryInfo;
+import com.mendix.recipes.recipe.dto.info.DirectionStepInfo;
+import com.mendix.recipes.recipe.dto.info.DivisionInfo;
+import com.mendix.recipes.recipe.dto.info.RecipeInfo;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -126,8 +132,43 @@ class RecipeControllerTest {
     @Test
     void addRecipe_succeeds() throws Exception {
 
+        final UUID recipeUuid = UUID.fromString("1ad1be80-2ce4-4269-b2cd-1c834804bfca");
+
         Mockito.when(recipeService.add(Mockito.any(RecipeForm.class)))
-            .thenReturn(UUID.fromString("1ad1be80-2ce4-4269-b2cd-1c834804bfca"));
+            .thenReturn(recipeUuid);
+
+        Mockito.when(recipeService.get(Mockito.any(UUID.class)))
+            .thenReturn(new RecipeInfo() {
+                @Override
+                public UUID getUuid() {
+                    return recipeUuid;
+                }
+
+                @Override
+                public String getTitle() {
+                    return null;
+                }
+
+                @Override
+                public Integer getYield() {
+                    return null;
+                }
+
+                @Override
+                public List<DivisionInfo> getIngredients() {
+                    return null;
+                }
+
+                @Override
+                public List<DirectionStepInfo> getDirections() {
+                    return null;
+                }
+
+                @Override
+                public Set<CategoryInfo> getCategories() {
+                    return null;
+                }
+            });
 
         final IngredientForm ingredient = new IngredientForm();
         ingredient.setQuantity("1/2");
@@ -159,6 +200,7 @@ class RecipeControllerTest {
             .andExpect(jsonPath("errorCode").isEmpty())
             .andExpect(jsonPath("text").isNotEmpty())
             .andExpect(jsonPath("text", is(not("recipeAdded"))))
-            .andExpect(jsonPath("data").isNotEmpty());
+            .andExpect(jsonPath("data").isNotEmpty())
+            .andExpect(jsonPath("data.uuid", is(recipeUuid.toString())));
     }
 }

@@ -63,7 +63,7 @@ public class Recipe {
     private List<DirectionStep> directions = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
         name = "RECIPE_CATEGORY",
         joinColumns = {@JoinColumn(name = "RECIPE_ID")},

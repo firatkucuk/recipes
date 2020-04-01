@@ -1,5 +1,6 @@
 package com.mendix.recipes.recipe;
 
+import com.mendix.recipes.common.exception.ItemNotFoundException;
 import com.mendix.recipes.domain.DirectionStep;
 import com.mendix.recipes.domain.IngredientDivision;
 import com.mendix.recipes.domain.IngredientItem;
@@ -11,6 +12,7 @@ import com.mendix.recipes.recipe.dto.info.RecipeInfo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ class RecipeService {
     private final RecipeCategoryRepository     categoryRepository;
     private final RecipeRepository             recipeRepository;
 
+    @NonNull
     UUID add(@NonNull final RecipeForm form) {
 
         final List<String> categories = form.getCategories().stream()
@@ -42,8 +45,13 @@ class RecipeService {
         recipe.setUuid(uuid.toString());
         recipe.setTitle(form.getTitle());
         recipe.setYield(form.getYield());
-        recipe.setCategories(categoryRepository.findMatchedCategories(categories));
         recipe.setCreatedAt(LocalDateTime.now());
+
+        categoryRepository.findMatchedCategories(categories).forEach(c -> {
+            c.getRecipes().add(recipe);
+            recipe.getCategories().add(c);
+        });
+
         recipeRepository.save(recipe);
 
         createDirections(recipe, form.getDirections());
@@ -54,6 +62,19 @@ class RecipeService {
         return uuid;
     }
 
+    @NonNull
+    RecipeInfo get(@NonNull final UUID uuid) {
+
+        final Optional<RecipeInfo> recipeInfoOptional = recipeRepository.findByUuid(uuid.toString());
+
+        if (recipeInfoOptional.isEmpty()) {
+            throw new ItemNotFoundException("recipeNotFound");
+        }
+
+        return recipeInfoOptional.get();
+    }
+
+    @NonNull
     List<RecipeInfo> list(@Nullable List<String> categoryList, @Nullable final String term) {
 
         if (categoryList == null) {

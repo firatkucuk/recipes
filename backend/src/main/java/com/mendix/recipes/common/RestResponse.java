@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public final class RestResponse<T> {
+public class RestResponse<T> {
 
     private final ResponseType type;
     private final String       msgId;

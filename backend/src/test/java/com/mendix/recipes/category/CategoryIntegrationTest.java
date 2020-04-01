@@ -1,9 +1,7 @@
 package com.mendix.recipes.category;
 
 import com.mendix.recipes.common.ResponseType;
-import com.mendix.recipes.common.RestResponse;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +18,7 @@ class CategoryIntegrationTest {
     @Test
     void getCategories() {
 
-        final var response = restTemplate.getForEntity("/api/category", RestResponse.class);
+        final var response = restTemplate.getForEntity("/api/category", CategoryListRestResponse.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getMsgId()).isEqualTo("categoryListFetched");
@@ -28,11 +26,11 @@ class CategoryIntegrationTest {
         assertThat(response.getBody().getErrorCode()).isNull();
         assertThat(response.getBody().getText()).isNotEmpty();
         assertThat(response.getBody().getText()).isNotEqualTo("categoryListFetched");
-        assertThat(response.getBody().getData()).isNotNull();
 
-        final var data = (List<Map<String, Object>>) response.getBody().getData();
+        final List<CategoryListItemImpl> data = response.getBody().getData();
 
+        assertThat(data).isNotNull();
         assertThat(data).hasSize(7);
-        assertThat(data.get(0).get("name")).isEqualTo("Cake mixes");
+        assertThat(data.get(0).getName()).isEqualTo("Cake mixes");
     }
 }

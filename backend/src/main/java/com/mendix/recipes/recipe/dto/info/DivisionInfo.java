@@ -2,9 +2,9 @@ package com.mendix.recipes.recipe.dto.info;
 
 import java.util.List;
 
-public interface DivisionInfo {
+public interface DivisionInfo<I extends IngredientItemInfo> {
 
     String getTitle();
 
-    List<IngredientItemInfo> getItems();
+    List<I> getItems();
 }

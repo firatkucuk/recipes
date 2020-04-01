@@ -20,15 +20,19 @@ class RecipeCategoryRepositoryTest {
     private RecipeCategoryRepository categoryRepository;
 
     @Test
-    void findMatchedCategories() {
+    void findMatchedCategories_noMatch() {
 
-        Set<Category> categories = categoryRepository.findMatchedCategories(
+        final Set<Category> categories = categoryRepository.findMatchedCategories(
             List.of(UUID.randomUUID().toString(), UUID.randomUUID().toString())
         );
 
         assertThat(categories).isEmpty();
+    }
 
-        categories = categoryRepository.findMatchedCategories(
+    @Test
+    void findMatchedCategories_ignoreUnmatched() {
+
+        final Set<Category> categories = categoryRepository.findMatchedCategories(
             List.of(
                 "2f44e5ec-7375-4bff-9409-698c536c84ba",
                 UUID.randomUUID().toString(),
@@ -40,11 +44,20 @@ class RecipeCategoryRepositoryTest {
         final Iterator<Category> iterator = categories.iterator();
         assertThat(iterator.next().getName()).isEqualTo("Main dish");
         assertThat(iterator.next().getName()).isEqualTo("Vegetables");
+    }
 
-        categories = categoryRepository.findMatchedCategories(
-            List.of(UUID.randomUUID().toString())
+    @Test
+    void findMatchedCategories_ignoreDuplicates() {
+
+        final Set<Category> categories = categoryRepository.findMatchedCategories(
+            List.of(
+                "2f44e5ec-7375-4bff-9409-698c536c84ba",
+                "2f44e5ec-7375-4bff-9409-698c536c84ba"
+            )
         );
 
-        assertThat(categories).isEmpty();
+        assertThat(categories).hasSize(1);
+        final Iterator<Category> iterator = categories.iterator();
+        assertThat(iterator.next().getName()).isEqualTo("Main dish");
     }
 }

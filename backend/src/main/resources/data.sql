@@ -8,9 +8,9 @@ VALUES ('2f44e5ec-7375-4bff-9409-698c536c84ba', 'Main dish', NOW()),
        ('6d6da1d2-0f00-424e-9828-fcce3904f100', 'Vegetables', NOW());
 
 INSERT INTO "RECIPE" ("UUID", "TITLE", "YIELD", "CREATED_AT")
-VALUES (RANDOM_UUID(), '30 Minute Chili', 6, NOW()),
-       (RANDOM_UUID(), 'Amaretto Cake', 1, NOW()),
-       (RANDOM_UUID(), 'Another Zucchini Dish', 6, NOW());
+VALUES ('b6baecce-2d60-4652-b75d-df8194d958fe', '30 Minute Chili', 6, NOW()),
+       ('68256a1f-e49d-48c5-9710-e737404f8d32', 'Amaretto Cake', 1, NOW()),
+       ('0d0f10d0-59e5-404b-b21b-0506a635afdb', 'Another Zucchini Dish', 6, NOW());
 
 INSERT INTO "RECIPE_CATEGORY" ("RECIPE_ID", "CATEGORY_ID")
 VALUES (1, 1),

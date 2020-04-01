@@ -36,7 +36,7 @@ class RecipeController {
 
     @GetMapping({"", "/"})
     RestResponse<List<RecipeInfo<?, ?, ?>>> getRecipes(
-        @RequestParam(required = false) List<String> category,
+        @RequestParam(required = false) List<UUID> category,
         @RequestParam(required = false) String term
     ) {
 

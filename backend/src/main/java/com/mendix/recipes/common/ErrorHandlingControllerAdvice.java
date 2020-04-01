@@ -19,6 +19,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Slf4j
 @ControllerAdvice
@@ -185,6 +186,23 @@ public class ErrorHandlingControllerAdvice {
 
         if (response == null) {
             log.debug("Invalid method argument", ex);
+
+            return null;
+        }
+
+        // Overriding response type
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+        return new ResponseEntity<>(resp.error("validationError"), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    ResponseEntity<RestResponse<Void>> handleException(
+        final MethodArgumentTypeMismatchException ex,
+        final HttpServletResponse response) {
+
+        if (response == null) {
+            log.debug("Invalid method argument type", ex);
 
             return null;
         }

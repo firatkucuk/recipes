@@ -6,7 +6,9 @@ import com.mendix.recipes.recipe.dto.form.IngredientDivisionForm;
 import com.mendix.recipes.recipe.dto.form.IngredientForm;
 import com.mendix.recipes.recipe.dto.form.RecipeForm;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import static com.mendix.recipes.common.JsonUtils.asJsonString;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -169,5 +173,71 @@ class RecipeControllerTest {
             .andExpect(jsonPath("text", is(not("recipeAdded"))))
             .andExpect(jsonPath("data").isNotEmpty())
             .andExpect(jsonPath("data.uuid", is(recipeUuid.toString())));
+    }
+
+    @Test
+    void getRecipe_invalidParameter() throws Exception {
+
+        mockMvc
+            .perform(
+                get("/api/recipe")
+                    .param("category", "xxx")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+            // .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("msgId").value("validationError"))
+            .andExpect(jsonPath("type").value(ResponseType.ERROR.name()))
+            .andExpect(jsonPath("errorCode").isNotEmpty())
+            .andExpect(jsonPath("text").isNotEmpty())
+            .andExpect(jsonPath("text", is(not("validationError"))))
+            .andExpect(jsonPath("data").isEmpty());
+    }
+
+    @Test
+    void getRecipe_succeeds() throws Exception {
+
+        final IngredientItemInfoImpl ingredient = new IngredientItemInfoImpl();
+        ingredient.setQuantity("1/2");
+        ingredient.setUnit("cup");
+        ingredient.setContent("Water");
+
+        final DivisionInfoImpl divisionInfo = new DivisionInfoImpl();
+        divisionInfo.setTitle("MAIN");
+        divisionInfo.setItems(List.of(ingredient));
+
+        final DirectionStepInfoImpl stepInfo = new DirectionStepInfoImpl();
+        stepInfo.setContent("Some directions");
+
+        final CategoryInfoImpl categoryInfo = new CategoryInfoImpl();
+        categoryInfo.setName("Soups");
+
+        final RecipeInfoImpl recipeInfo = new RecipeInfoImpl();
+        recipeInfo.setUuid(UUID.randomUUID());
+        recipeInfo.setTitle("New Recipe");
+        recipeInfo.setYield(4);
+        recipeInfo.setIngredients(List.of(divisionInfo));
+        recipeInfo.setDirections(List.of(stepInfo));
+        recipeInfo.setCategories(Set.of(categoryInfo));
+
+        Mockito.when(recipeService.list(Mockito.any(), Mockito.any()))
+            .thenReturn((List.of(recipeInfo)));
+
+        mockMvc
+            .perform(
+                get("/api/recipe")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+            // .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("msgId").value("recipeListFetched"))
+            .andExpect(jsonPath("type").value(ResponseType.INFO.name()))
+            .andExpect(jsonPath("errorCode").isEmpty())
+            .andExpect(jsonPath("text").isNotEmpty())
+            .andExpect(jsonPath("text", is(not("recipeListFetched"))))
+            .andExpect(jsonPath("data").isNotEmpty())
+            .andExpect(jsonPath("data", hasSize(1)));
     }
 }

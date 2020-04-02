@@ -1,6 +1,7 @@
 package com.mendix.recipes.recipe;
 
 import com.mendix.recipes.common.exception.ItemNotFoundException;
+import com.mendix.recipes.domain.Category;
 import com.mendix.recipes.domain.DirectionStep;
 import com.mendix.recipes.domain.IngredientDivision;
 import com.mendix.recipes.domain.IngredientItem;
@@ -10,7 +11,7 @@ import com.mendix.recipes.recipe.dto.form.IngredientForm;
 import com.mendix.recipes.recipe.dto.form.RecipeForm;
 import com.mendix.recipes.recipe.dto.info.RecipeInfo;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -19,6 +20,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 @Service
 @Transactional
@@ -76,15 +79,19 @@ class RecipeService {
     @NonNull
     <T extends RecipeInfo<?, ?, ?>> List<T> list(@Nullable final List<UUID> categoryUuids, @Nullable final String term) {
 
-        final List<String> categoryList;
+        final List<String> categoryList        = findTheMatchedCategoryUuids(categoryUuids);
+        final boolean      noCategoryFiltering = categoryList.isEmpty();
+        final boolean      noTermFiltering     = StringUtils.isEmpty(term);
 
-        if (categoryUuids == null) {
-            categoryList = new ArrayList<>();
-        } else {
-            categoryList = categoryUuids.stream().map(UUID::toString).collect(Collectors.toList());
+        if (noCategoryFiltering && noTermFiltering) {
+            return recipeRepository.listAll();
+        } else if (noCategoryFiltering) {
+            return recipeRepository.filterByTerm(term);
+        } else if (noTermFiltering) {
+            return recipeRepository.filterByCategories(categoryList);
         }
 
-        return recipeRepository.list(categoryList.size(), categoryList, term);
+        return recipeRepository.filterByTermAndCategories(term, categoryList);
     }
 
     private void createDirections(@NonNull final Recipe recipe, @NonNull final List<String> directionContents) {
@@ -131,5 +138,18 @@ class RecipeService {
             ingredientDivisionRepository.save(division);
             recipe.getIngredients().add(division);
         }
+    }
+
+    private List<String> findTheMatchedCategoryUuids(@Nullable final List<UUID> categoryUuids) {
+
+        if (CollectionUtils.isEmpty(categoryUuids)) {
+            return Collections.emptyList();
+        }
+
+        final var uuids = categoryUuids.stream().map(UUID::toString).collect(Collectors.toList());
+
+        return categoryRepository.findMatchedCategories(uuids).stream()
+            .map(Category::getUuid)
+            .collect(Collectors.toList());
     }
 }

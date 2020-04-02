@@ -1,12 +1,16 @@
 package com.mendix.recipes.recipe;
 
 import com.mendix.recipes.common.exception.ItemNotFoundException;
+import com.mendix.recipes.domain.Category;
 import com.mendix.recipes.domain.Recipe;
 import com.mendix.recipes.recipe.dto.form.IngredientDivisionForm;
 import com.mendix.recipes.recipe.dto.form.IngredientForm;
 import com.mendix.recipes.recipe.dto.form.RecipeForm;
+import com.mendix.recipes.recipe.dto.info.RecipeInfo;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -99,20 +103,67 @@ class RecipeServiceTest {
     }
 
     @Test
-    void list_succeeds() {
+    void list_nullCategoryListAndNullTerm() {
+
+        recipeService.list(null, null);
+        Mockito.verify(categoryRepository, Mockito.never()).findMatchedCategories(Mockito.any());
+        Mockito.verify(recipeRepository, Mockito.times(1)).listAll();
+
+        recipeService.list(null, "");
+        Mockito.verify(categoryRepository, Mockito.never()).findMatchedCategories(Mockito.any());
+        Mockito.verify(recipeRepository, Mockito.times(2)).listAll();
+
+        recipeService.list(Collections.emptyList(), null);
+        Mockito.verify(categoryRepository, Mockito.never()).findMatchedCategories(Mockito.any());
+        Mockito.verify(recipeRepository, Mockito.times(3)).listAll();
+
+        recipeService.list(Collections.emptyList(), "");
+        Mockito.verify(categoryRepository, Mockito.never()).findMatchedCategories(Mockito.any());
+        Mockito.verify(recipeRepository, Mockito.times(4)).listAll();
+    }
+
+    @Test
+    void list_unMatchedCategoriesAndEmptyTerm() {
+
+        Mockito.when(categoryRepository.findMatchedCategories(Mockito.anyList()))
+            .thenReturn(Collections.emptySet());
+
+        recipeService.list(List.of(UUID.randomUUID()), "");
+        Mockito.verify(recipeRepository, Mockito.times(1)).listAll();
+    }
+
+    @Test
+    void list_unMatchedCategoriesAndTerm() {
+
+        Mockito.when(categoryRepository.findMatchedCategories(Mockito.anyList()))
+            .thenReturn(Collections.emptySet());
+
+        recipeService.list(List.of(UUID.randomUUID()), "term");
+        Mockito.verify(recipeRepository, Mockito.times(1)).filterByTerm(Mockito.anyString());
+    }
+
+    @Test
+    void list_matchedCategoriesAndEmptyTerm() {
 
         final UUID uuid = UUID.randomUUID();
 
-        final RecipeInfoImpl recipeInfo = new RecipeInfoImpl();
-        recipeInfo.setUuid(uuid);
+        Mockito.when(categoryRepository.findMatchedCategories(Mockito.anyList()))
+            .thenReturn(Set.of(Category.builder().uuid(uuid.toString()).build()));
 
-        Mockito.when(recipeRepository.list(Mockito.anyInt(), Mockito.any(), Mockito.any()))
-            .thenReturn(List.of(recipeInfo));
+        recipeService.list(List.of(uuid), "");
+        Mockito.verify(recipeRepository, Mockito.times(1)).filterByCategories(Mockito.anyList());
+    }
 
-        final var list = recipeService.list(List.of(UUID.randomUUID()), "cake");
+    @Test
+    void list_matchedCategoriesAndSomeTerm() {
 
-        assertThat(list).isNotNull();
-        assertThat(list).hasSize(1);
-        assertThat(list.get(0).getUuid()).isEqualTo(uuid);
+        final UUID uuid = UUID.randomUUID();
+
+        Mockito.when(categoryRepository.findMatchedCategories(Mockito.anyList()))
+            .thenReturn(Set.of(Category.builder().uuid(uuid.toString()).build()));
+
+        recipeService.list(List.of(uuid), "term");
+        Mockito.verify(recipeRepository, Mockito.times(1))
+            .filterByTermAndCategories(Mockito.anyString(), Mockito.anyList());
     }
 }

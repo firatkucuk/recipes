@@ -65,7 +65,9 @@ interface RecipeRepository extends JpaRepository<Recipe, Long> {
         "  and" +
         "  c.uuid in :category"
     )
-    <T extends RecipeInfo<?, ?, ?>> List<T> filterByTermAndCategories(@NonNull String term, @NonNull List<String> category);
+    <T extends RecipeInfo<?, ?, ?>> List<T> filterByTermAndCategories(
+        @NonNull String term, @NonNull List<String> category
+    );
 
     @NonNull
     <T extends RecipeInfo<?, ?, ?>> Optional<T> findByUuid(@Nullable String uuid);

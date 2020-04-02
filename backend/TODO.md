@@ -1,3 +1,0 @@
-- pageable listing
-- Docker container
-- Optimistic locking

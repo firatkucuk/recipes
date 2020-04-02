@@ -77,7 +77,9 @@ class RecipeService {
     }
 
     @NonNull
-    <T extends RecipeInfo<?, ?, ?>> List<T> list(@Nullable final List<UUID> categoryUuids, @Nullable final String term) {
+    <T extends RecipeInfo<?, ?, ?>> List<T> list(
+        @Nullable final List<UUID> categoryUuids, @Nullable final String term
+    ) {
 
         final List<String> categoryList        = findTheMatchedCategoryUuids(categoryUuids);
         final boolean      noCategoryFiltering = categoryList.isEmpty();
@@ -108,7 +110,9 @@ class RecipeService {
         }
     }
 
-    private void createIngredientItems(@NonNull final IngredientDivision division, @NonNull final List<IngredientForm> formIngredients) {
+    private void createIngredientItems(
+        @NonNull final IngredientDivision division, @NonNull final List<IngredientForm> formIngredients
+    ) {
 
         for (final IngredientForm formIngredient : formIngredients) {
             final IngredientItem ingredientItem = new IngredientItem();
@@ -123,7 +127,9 @@ class RecipeService {
         }
     }
 
-    private void createIngredients(@NonNull final Recipe recipe, @NonNull final List<IngredientDivisionForm> formDivisions) {
+    private void createIngredients(
+        @NonNull final Recipe recipe, @NonNull final List<IngredientDivisionForm> formDivisions
+    ) {
 
         for (final IngredientDivisionForm formDivision : formDivisions) {
             final IngredientDivision division = new IngredientDivision();
@@ -140,6 +146,7 @@ class RecipeService {
         }
     }
 
+    @NonNull
     private List<String> findTheMatchedCategoryUuids(@Nullable final List<UUID> categoryUuids) {
 
         if (CollectionUtils.isEmpty(categoryUuids)) {

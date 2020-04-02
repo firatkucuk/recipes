@@ -4,7 +4,6 @@ import com.mendix.recipes.common.exception.AccessNotAllowedException;
 import com.mendix.recipes.common.exception.BadRequestException;
 import com.mendix.recipes.common.exception.ErrorOccurredException;
 import com.mendix.recipes.common.exception.ItemNotFoundException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
